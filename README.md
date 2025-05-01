@@ -1,4 +1,4 @@
-## Sing-Box for pfSense
+## Sing-box for pfSense
 sing-box安装工具，用于运行Sing-Box、Tun2socks，在pfSense上实现透明代理功能。支持DNS分流，带Web控制界面，方便进行配置修改、程序控制、日志查看。在pfSense plus 25.03(BETA)上测试通过。
 
 ![](images/proxy.png)

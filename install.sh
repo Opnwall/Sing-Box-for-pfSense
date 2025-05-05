@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo -e ''
-echo -e "\033[32m========Sing-Box for pfSense 代理全家桶一键安装脚本=========\033[0m"
+echo -e "\033[32m========Sing-Box for pfSense一键安装脚本=========\033[0m"
 echo -e ''
 
 # 定义颜色变量
@@ -314,18 +314,18 @@ echo " "
 sleep 1
 log "$YELLOW" "添加服务列表项..."
 # 定义要添加的内容
-NEW_SERVICES="        <service>
-            <name>tun2socks</name>
-            <rcfile>tun2socks</rcfile>
-            <executable>tun2socks</executable>
-            <description><![CDATA[tun转socks]]></description>
-        </service>
-        <service>
-            <name>sing-box</name>
-            <rcfile>singbox</rcfile>
-            <executable>sing-box</executable>
-            <description><![CDATA[sing-box 代理服务]]></description>
-        </service>
+NEW_SERVICES="    <service>
+      <name>tun2socks</name>
+      <rcfile>tun2socks</rcfile>
+      <executable>tun2socks</executable>
+      <description><![CDATA[tun转socks]]></description>
+    </service>
+    <service>
+      <name>sing-box</name>
+      <rcfile>singbox</rcfile>
+      <executable>sing-box</executable>
+      <description><![CDATA[sing-box 代理服务]]></description>
+    </service>
 "
 # 检查配置文件是否已包含相同内容
 if grep -q "<name>tun2socks</name>" "$CONFIG_FILE" && grep -q "<name>sing-box</name>" "$CONFIG_FILE"; then

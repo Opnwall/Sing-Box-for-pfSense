@@ -1,20 +1,20 @@
 <?php
 require_once("guiconfig.inc");
 
-$pgtitle = [gettext('VPN'), gettext('Sing-box')];
+$pgtitle = [gettext('VPN'), gettext('tun2socks')];
 include("head.inc");
 
-// 配置文件路径
-$config_file = "/usr/local/etc/sing-box/config.json";
-$log_file = "/var/log/sing-box.log";
+// 配置文件和日志路径
+$config_file = "/usr/local/etc/tun2socks/config.yaml";
+$log_file = "/var/log/tun2socks.log";
 
-// 初始化消息变量
+// 消息变量初始化
 $message = "";
 
 // 使用 pfSense 的选项卡函数生成菜单
 $tab_array = [
-    1 => [gettext("Sing-Box"), true, "services_sing_box.php"],
-    2 => [gettext("Tun2Socks"), false, "services_tun2socks.php"],
+    1 => [gettext("Sing-Box"), false, "services_sing_box.php"],
+    2 => [gettext("Tun2Socks"), true, "services_tun2socks.php"],
 ];
 
 display_top_tabs($tab_array);
@@ -26,18 +26,18 @@ function handleServiceAction($action)
     if (!in_array($action, $allowedActions)) {
         return "无效的操作！";
     }
-
+    
     // 清空日志文件（仅在启动或重启时）
     if ($action === 'start' || $action === 'restart') {
-        file_put_contents("/var/log/sing-box.log", ""); // 清空日志文件
+        file_put_contents("/var/log/tun2socks.log", ""); // 清空日志文件
     }
 
     // 执行服务操作
-    exec("service singbox " . escapeshellarg($action), $output, $return_var);
+    exec("service tun2socks " . escapeshellarg($action), $output, $return_var);
     $messages = [
-        'start' => ["Sing-Box服务启动成功！", "Sing-Box服务启动失败！"],
-        'stop' => ["Sing-Box服务已停止！", "Sing-Box服务停止失败！"],
-        'restart' => ["Sing-Box服务重启成功！", "Sing-Box服务重启失败！"]
+        'start' => ["tun2socks 服务启动成功！", "tun2socks 服务启动失败！"],
+        'stop' => ["tun2socks 服务已停止！", "tun2socks 服务停止失败！"],
+        'restart' => ["tun2socks 服务重启成功！", "tun2socks 服务重启失败！"]
     ];
     return $return_var === 0 ? $messages[$action][0] : $messages[$action][1];
 }
@@ -68,7 +68,7 @@ if ($_POST) {
 }
 
 
-// 加载配置文件内容
+// 读取配置文件内容
 $config_content = file_exists($config_file) ? htmlspecialchars(file_get_contents($config_file)) : "配置文件未找到！";
 ?>
 
@@ -79,13 +79,13 @@ $config_content = file_exists($config_file) ? htmlspecialchars(file_get_contents
     </div>
     <?php endif; ?>
 </div>
-<!-- 服务状态 -->
+<!-- 状态显示 -->
 <div class="panel panel-default">
     <div class="panel-heading">
         <h2 class="panel-title">服务状态</h2>
     </div>
     <div class="panel-body">
-        <div id="sing-box-status" class="alert alert-secondary">
+        <div id="tun2socks-status" class="alert alert-secondary">
             <i class="fa fa-circle-notch fa-spin"></i> 检查中...
         </div>
     </div>
@@ -136,16 +136,16 @@ $config_content = file_exists($config_file) ? htmlspecialchars(file_get_contents
 
 <script>
 // 检查服务状态
-function checkSingBoxStatus() {
-    fetch('/status_sing_box.php')
+function checkTun2socksStatus() {
+    fetch('/status_tun2socks.php')
         .then(response => response.json())
         .then(data => {
-            const statusElement = document.getElementById('sing-box-status');
+            const statusElement = document.getElementById('tun2socks-status');
             if (data.status === "running") {
-                statusElement.innerHTML = '<i class="fa fa-check-circle text-success"></i> Sing-Box正在运行';
+                statusElement.innerHTML = '<i class="fa fa-check-circle text-success"></i> tun2socks 正在运行';
                 statusElement.className = "alert alert-success";
             } else {
-                statusElement.innerHTML = '<i class="fa fa-times-circle text-danger"></i> Sing-Box已停止';
+                statusElement.innerHTML = '<i class="fa fa-times-circle text-danger"></i> tun2socks 已停止';
                 statusElement.className = "alert alert-danger";
             }
         });
@@ -153,7 +153,7 @@ function checkSingBoxStatus() {
 
 // 实时刷新日志
 function refreshLogs() {
-    fetch('/status_sing_box_logs.php')
+    fetch('/status_tun2socks_logs.php')
         .then(response => response.text())
         .then(logContent => {
             const logViewer = document.getElementById('log-viewer');
@@ -168,11 +168,11 @@ function refreshLogs() {
         });
 }
 
-// 初始化
+// 页面加载时初始化
 document.addEventListener('DOMContentLoaded', () => {
-    checkSingBoxStatus();
+    checkTun2socksStatus();
     refreshLogs();
-    setInterval(checkSingBoxStatus, 3000);
+    setInterval(checkTun2socksStatus, 3000);
     setInterval(refreshLogs, 2000);
 });
 </script>

@@ -1,0 +1,8 @@
+#!/usr/local/bin/php-cgi -f
+<?php
+# 用于解决重启后，tun网关不能连通的问题。
+require_once("config.inc");
+interfaces_configure();
+# 这里需要把tun_3000修改为配置文件当中的接口名称。
+mwexec('/etc/rc.linkup start tun_3000');
+?>

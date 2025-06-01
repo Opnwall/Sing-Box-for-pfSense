@@ -40,6 +40,8 @@ log "$YELLOW" "生成菜单..."
 log "$YELLOW" "添加权限..."
 chmod +x bin/*
 chmod +x rc.d/*
+chmod +x etc/*
+cp -f etc/* /etc/ || log "$RED" "etc 文件复制失败！"
 cp -f bin/* "$BIN_DIR/" || log "$RED" "bin 文件复制失败！"
 cp -f www/* "$WWW_DIR/" || log "$RED" "www 文件复制失败！"
 cp -f menu/* "$MENU_DIR/" || log "$RED" "menu 文件复制失败！"

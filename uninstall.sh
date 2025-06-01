@@ -84,6 +84,7 @@ rm -f /usr/local/www/status_sing-box.php
 
 # 删除程序
 rm -f /usr/local/bin/sing-box
+rm -f /etc/rc.sing-box
 echo ""
 
 log "$YELLOW" "删除完成，配置已保存为：$BACKUP_FILE"

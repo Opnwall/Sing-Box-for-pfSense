@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<packagegui>
-	<menu>
-		<name>Sing-Box</name>
-		<section>VPN</section>
-		<url>/services_sing_box.php</url>
-	</menu>
-</packagegui>

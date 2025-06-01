@@ -59,7 +59,7 @@ echo ""
 
 # 停止程序
 log "$YELLOW" "停止sing-box..."
-service singbox stop > /dev/null 2>&1
+service sing-box stop > /dev/null 2>&1
 echo ""
 
 # 删除程序和配置
@@ -69,10 +69,10 @@ log "$YELLOW" "删除程序和配置，请稍等..."
 rm -rf /usr/local/etc/sing-box
 
 # 删除rc.d
-rm -f /usr/local/etc/rc.d/singbox
+rm -f /usr/local/etc/rc.d/sing-box
 
 # 删除rc.conf
-rm -f /etc/rc.conf.d/singbox
+rm -f /etc/rc.conf.d/sing_box
 
 # 删除菜单
 rm -f /usr/local/share/pfSense/menu/pfSense_VPN_sing_box.xml

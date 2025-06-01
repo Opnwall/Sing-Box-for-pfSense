@@ -64,7 +64,7 @@ cp "$CONFIG_FILE" "$BACKUP_FILE" || {
 
 # 启动Tun接口
 log "$YELLOW" "启动sing-box..."
-service singbox start > /dev/null 2>&1
+service sing-box start > /dev/null 2>&1
 echo ""
 
 # 添加Tun接口
@@ -208,34 +208,6 @@ else
     print "      <gateway>TUN_GW</gateway>"
     print "      <bridgeto></bridgeto>"
     print "    </rule>"
-    print "    <rule>"
-    print "      <id></id>"
-    print "      <tracker>99999999</tracker>"
-    print "      <type>pass</type>"
-    print "      <interface>opt10</interface>"
-    print "      <ipprotocol>inet</ipprotocol>"
-    print "      <tag></tag>"
-    print "      <tagged></tagged>"
-    print "      <max></max>"
-    print "      <max-src-nodes></max-src-nodes>"
-    print "      <max-src-conn></max-src-conn>"
-    print "      <max-src-states></max-src-states>"
-    print "      <statetimeout></statetimeout>"
-    print "      <statepolicy></statepolicy>"
-    print "      <statetype><![CDATA[keep state]]></statetype>"
-    print "      <pflow></pflow>"
-    print "      <os></os>"
-    print "      <srcmac></srcmac>"
-    print "      <dstmac></dstmac>"
-    print "      <source>"
-    print "        <any></any>"
-    print "      </source>"
-    print "      <destination>"
-    print "        <any></any>"
-    print "      </destination>"
-    print "      <descr><![CDATA[any to any]]></descr>"
-    print "      <bridgeto></bridgeto>"
-    print "    </rule>"
     inserted = 1
   }
   { print }
@@ -246,15 +218,20 @@ echo " "
 
 # 添加开机启动项 
 log "$YELLOW" "添加开机启动项..."
-if grep -q "service singbox start" "$CONFIG_FILE"; then
+if grep -q "service sing-box start" "$CONFIG_FILE"; then
   echo "开机启动项已设置，跳过"
 else
   awk '
   /<shellcmdsettings>/ {
     print
     print "    <config>"
-    print "      <cmd>service singbox start</cmd>"
+    print "      <cmd>service sing-box start</cmd>"
     print "      <cmdtype>shellcmd</cmdtype>"
+    print "      <description></description>"
+    print "    </config>"
+    print "    <config>"
+    print "      <cmd>/etc/rc.sing-box</cmd>"
+    print "      <cmdtype>afterfilterchangeshellcmd</cmdtype>"
     print "      <description></description>"
     print "    </config>"
     next
@@ -270,7 +247,7 @@ log "$YELLOW" "添加服务列表项..."
 # 定义要添加的内容
 NEW_SERVICES="    <service>
       <name>sing-box</name>
-      <rcfile>singbox</rcfile>
+      <rcfile>sing-box</rcfile>
       <executable>sing-box</executable>
       <description><![CDATA[sing-box 代理服务]]></description>
     </service>

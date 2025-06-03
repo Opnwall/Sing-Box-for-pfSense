@@ -27,6 +27,6 @@ sh install.sh
 ```bash
 sh uninstall.sh
 ```
-## 使用教程
+## 配置教程
 
 [pfSense 配置 sing-box 透明代理教程](https://pfchina.org/?p=14988)

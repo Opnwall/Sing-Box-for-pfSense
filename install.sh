@@ -38,10 +38,7 @@ mkdir -p "$CONF_DIR/sing-box" || log "$RED" "目录创建失败！"
 log "$YELLOW" "复制文件..."
 log "$YELLOW" "生成菜单..."
 log "$YELLOW" "添加权限..."
-chmod +x bin/*
-chmod +x rc.d/*
-chmod +x etc/*
-cp -f etc/* /etc/ || log "$RED" "etc 文件复制失败！"
+chmod +x ./bin/* ./rc.d/* 
 cp -f bin/* "$BIN_DIR/" || log "$RED" "bin 文件复制失败！"
 cp -f www/* "$WWW_DIR/" || log "$RED" "www 文件复制失败！"
 cp -f menu/* "$MENU_DIR/" || log "$RED" "menu 文件复制失败！"
@@ -230,7 +227,7 @@ else
     print "      <description></description>"
     print "    </config>"
     print "    <config>"
-    print "      <cmd>/etc/rc.sing-box</cmd>"
+    print "      <cmd>/etc/rc.interfaces_opt_configure</cmd>"
     print "      <cmdtype>afterfilterchangeshellcmd</cmdtype>"
     print "      <description></description>"
     print "    </config>"

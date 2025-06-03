@@ -22,8 +22,8 @@
     {
       "type": "tun",
       "tag": "tun-in",
-      "interface_name": "tun_3000",//如果修改了接口名称，请同时修改开机启动脚本/etc/rc.sing-box中的接口名称。
-      "address": ["10.10.0.0/30"],
+      "interface_name": "tun_3000",
+      "address": ["172.19.0.0/30"],
       "mtu": 9000,
       "auto_route": false,//必须设置为false。
       "strict_route": true,

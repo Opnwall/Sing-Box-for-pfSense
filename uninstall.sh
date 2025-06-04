@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo -e ''
-echo -e "\033[32m========Sing-box for pfSense 代理全家桶一键卸载脚本=========\033[0m"
+echo -e "\033[32m========Sing-box for pfSense 一键卸载脚本=========\033[0m"
 echo -e ''
 
 # 定义颜色变量
@@ -16,46 +16,6 @@ log() {
     local message="$2"
     echo -e "${color}${message}${RESET}"
 }
-
-
-# 删除服务项
-CONFIG_FILE="/cf/conf/config.xml"
-BACKUP_FILE="/cf/conf/config.xml.bak.$(date +%F-%H%M%S)"
-
-[ -f "$CONFIG_FILE" ] || {
-    log "$RED" "配置文件不存在：$CONFIG_FILE"
-    exit 1
-}
-
-log "$YELLOW" "备份配置文件..."
-cp "$CONFIG_FILE" "$BACKUP_FILE" || {
-    log "$RED" "备份失败"
-    exit 1
-}
-
-for SERVICE in sing-box; do
-  # 生成临时文件
-  TMP_FILE=$(mktemp)
-
-  awk -v service="$SERVICE" '
-    BEGIN { keep = 1 }
-    /<service>/ { block = ""; in_block = 1 }
-    in_block {
-      block = block $0 "\n"
-      if (/<\/service>/) {
-        in_block = 0
-        if (block ~ "<name>" service "</name>") {
-          next
-        } else {
-          printf "%s", block
-        }
-      }
-      next
-    }
-    { print }
-  ' "$CONFIG_FILE" > "$TMP_FILE" && mv "$TMP_FILE" "$CONFIG_FILE"
-done
-echo ""
 
 # 停止程序
 log "$YELLOW" "停止sing-box..."

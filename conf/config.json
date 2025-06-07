@@ -1,7 +1,7 @@
 {
   "log": {
     "disabled": false,
-    "level": "info",// "debug", "info", "warn", "error"，为了减少日志量，建议在正常使用后，修改为error。
+    "level": "debug",// debug > info > warn > error 测试没有问题后，修改为error，减少日志存储量。
     "timestamp": true
   },
   "experimental": {
@@ -25,10 +25,10 @@
       "interface_name": "tun_3000",
       "address": ["172.19.0.0/30"],
       "mtu": 9000,
-      "auto_route": false,//必须设置为false。
+      "auto_route": true,
       "strict_route": true,
       "endpoint_independent_nat": false,
-      "stack": "gvisor" //只能用gvisor
+      "stack": "system" //system > mixed > gvisor
     }
   ],
   "outbounds": [
@@ -219,11 +219,6 @@
         "rule_set": [
           "Category-Ads"
         ]
-      },
-      {
-        "action": "route",
-        "ip_cidr": ["127.0.0.1/32", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"],
-        "outbound": "direct"
       }
     ],
     "rule_set": [

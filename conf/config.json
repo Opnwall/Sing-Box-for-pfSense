@@ -25,10 +25,10 @@
       "interface_name": "tun_3000",
       "address": ["172.19.0.0/30"],
       "mtu": 9000,
-      "auto_route": false,
+      "auto_route": false, //必须设置为false
       "strict_route": true,
       "endpoint_independent_nat": false,
-      "stack": "gvisor" //system > mixed > gvisor
+      "stack": "gvisor" //只能使用gvisor
     }
   ],
   "outbounds": [

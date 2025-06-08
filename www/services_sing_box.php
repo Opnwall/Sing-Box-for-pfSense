@@ -1,7 +1,7 @@
 <?php
 require_once("guiconfig.inc");
 
-$pgtitle = [gettext('Services'), gettext('Sing-box')];
+$pgtitle = [gettext('VPN'), gettext('Sing-box')];
 include("head.inc");
 
 // 配置文件路径

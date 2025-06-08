@@ -272,24 +272,12 @@
     "servers": [
       {
         "tag": "Local-DNS",
-        "address": "https://223.5.5.5:443/dns-query",
-        "address_resolver": "Local-DNS-Resolver",
-        "detour": "direct"
-      },
-      {
-        "tag": "Local-DNS-Resolver",
         "address": "udp://223.5.5.5:53",
         "detour": "direct"
       },
       {
         "tag": "Remote-DNS",
-        "address": "https://dns.google/dns-query",
-        "address_resolver": "Remote-DNS-Resolver",
-        "detour": "select"
-      },
-      {
-        "tag": "Remote-DNS-Resolver",
-        "address": "tls://8.8.8.8:853",
+        "address": "udp://8.8.8.8:53",
         "detour": "select"
       }
     ],

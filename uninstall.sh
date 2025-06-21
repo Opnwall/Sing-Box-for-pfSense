@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo -e ''
-echo -e "\033[32m========Sing-box for pfSense 一键卸载脚本=========\033[0m"
+echo -e "\033[32m========Sing-box for pfSense 代理全家桶一键卸载脚本=========\033[0m"
 echo -e ''
 
 # 定义颜色变量
@@ -41,17 +41,11 @@ rm -f /usr/local/share/pfSense/menu/pfSense_VPN_sing_box.xml
 rm -f /usr/local/www/services_sing-box.php
 rm -f /usr/local/www/status_sing-box_logs.php
 rm -f /usr/local/www/status_sing-box.php
+rm -f /usr/local/www/services_sub.php
+rm -f /usr/bin/sub
 
 # 删除程序
 rm -f /usr/local/bin/sing-box
-echo ""
-
-log "$YELLOW" "删除完成，配置已保存为：$BACKUP_FILE"
-echo ""
-
-# 重启所有服务
-log "$YELLOW" "重新应用所有更改，请稍等..."
-/etc/rc.reload_all >/dev/null 2>&1
 echo ""
 
 # 完成提示

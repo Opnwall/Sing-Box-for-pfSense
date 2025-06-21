@@ -9,7 +9,7 @@
 name="sing_box"
 rcvar="sing_box_enable"
 
-pidfile="/var/run/${name}.pid"
+pidfile="/var/run/sing-box.pid"
 logfile="/var/log/sing-box.log"
 command="/usr/local/bin/sing-box"
 config="/usr/local/etc/sing-box/config.json"

@@ -8,10 +8,16 @@ include("head.inc");
 $config_file = "/usr/local/etc/sing-box/config.json";
 $log_file = "/var/log/sing-box.log";
 
-// 初始化消息变量
-$message = "";
+// 使用 pfSense 的选项卡函数生成菜单
+$tab_array = [
+    1 => [gettext("Sing-Box"), true, "services_sing_box.php"],
+    2 => [gettext("Sub"), false, "services_sub.php"]
+];
 
 display_top_tabs($tab_array);
+
+// 初始化消息变量
+$message = "";
 
 // 服务控制函数
 function handleServiceAction($action)
@@ -110,7 +116,7 @@ $config_content = file_exists($config_file) ? htmlspecialchars(file_get_contents
     </div>
     <div class="form-group">
         <form method="post">
-            <textarea name="config_content" rows="10" class="form-control"><?= $config_content; ?></textarea>
+            <textarea name="config_content" rows="10" class="form-control" style="font-family: monospace;"><?= $config_content; ?></textarea>
             <br>
             <button type="submit" name="action" value="save_config" class="btn btn-primary">
                 <i class="fa fa-save"></i> 保存配置
@@ -132,7 +138,10 @@ $config_content = file_exists($config_file) ? htmlspecialchars(file_get_contents
 // 检查服务状态
 function checkSingBoxStatus() {
     fetch('/status_sing_box.php')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error("网络响应不正常");
+            return response.json();
+        })
         .then(data => {
             const statusElement = document.getElementById('sing-box-status');
             if (data.status === "running") {
@@ -142,13 +151,21 @@ function checkSingBoxStatus() {
                 statusElement.innerHTML = '<i class="fa fa-times-circle text-danger"></i> Sing-Box已停止';
                 statusElement.className = "alert alert-danger";
             }
+        })
+        .catch(error => {
+            const statusElement = document.getElementById('sing-box-status');
+            statusElement.innerHTML = '<i class="fa fa-exclamation-triangle text-warning"></i> 状态检查失败';
+            statusElement.className = "alert alert-warning";
         });
 }
 
 // 实时刷新日志
 function refreshLogs() {
     fetch('/status_sing_box_logs.php')
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) throw new Error("网络响应不正常");
+            return response.text();
+        })
         .then(logContent => {
             const logViewer = document.getElementById('log-viewer');
             logViewer.value = logContent;

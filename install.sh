@@ -41,13 +41,34 @@ cp -f www/* "$WWW_DIR/" || log "$RED" "www 文件复制失败！"
 cp -f menu/* "$MENU_DIR/" || log "$RED" "menu 文件复制失败！"
 cp -f rc.d/* "$RC_DIR/" || log "$RED" "rc.d 文件复制失败！"
 cp -f rc.conf/* "$RC_CONF/" || log "$RED" "rc.conf 文件复制失败！"
-cp -f conf/* "$CONF_DIR/sing-box/" || log "$RED" "sing-box 配置文件复制失败！"
+cp -R -f conf/* "$CONF_DIR/sing-box/" || log "$RED" "sing-box 配置文件复制失败！"
+
+# 安装bash
+sleep 1
+log "$YELLOW" "安装bash..."
+if ! pkg info -q bash > /dev/null 2>&1; then
+  pkg install -y bash > /dev/null 2>&1
+fi
+
+# 安装cron
+log "$YELLOW" "安装cron..."
+if ! pkg info -q pfSense-pkg-Cron > /dev/null 2>&1; then
+  pkg install -y pfSense-pkg-Cron > /dev/null 2>&1
+fi
 
 # 安装shellcmd
 log "$YELLOW" "安装shellcmd..."
 if ! pkg info -q pfSense-pkg-Shellcmd > /dev/null 2>&1; then
   pkg install -y pfSense-pkg-Shellcmd > /dev/null 2>&1
 fi
+
+# 新建订阅程序
+log "$YELLOW" "添加订阅程序..."
+cat>/usr/bin/sub<<EOF
+# 启动订阅程序
+bash /usr/local/etc/sing-box/sub/sub.sh
+EOF
+chmod +x /usr/bin/sub
 
 # 启动Tun接口
 log "$YELLOW" "启动sing-box..."
@@ -56,6 +77,6 @@ echo ""
 
 # 完成提示
 sleep 1
-log "$GREEN" "sing-box安装完毕，请刷新浏览器，导航到VPN > Sing-Box修改配置。"
+log "$GREEN" "Sing-box代理安装完毕，请刷新浏览器，导航到VPN > Sing-Box 修改配置。"
 log "$GREEN" "透明代理的详细配置，请参考使用教程。所有配置完成后，重启防火墙，让配置生效。"
 echo ""

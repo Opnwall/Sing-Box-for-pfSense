@@ -25,10 +25,10 @@
       "interface_name": "tun_3000",
       "address": ["172.19.0.0/30"],
       "mtu": 9000,
-      "auto_route": false,
+      "auto_route": false,// 不能设为false。
       "strict_route": true,
       "endpoint_independent_nat": false,
-      "stack": "gvisor"
+      "stack": "gvisor"// 不能设为system。
     }
   ],
   "outbounds": [
@@ -279,7 +279,7 @@
         "download_detour": "direct"
       }
     ],
-    "auto_detect_interface": false,
+    "auto_detect_interface": false,//不能设为true
     "final": "select"
   },
   "dns": {

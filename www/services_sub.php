@@ -96,9 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 保存订阅地址和安全密钥
         $url_saved = save_env_variable('CLASH_URL', $url);
 
-        // 记录日志
+        // 记录日志并重定向
         if ($url_saved) {
             log_message("订阅地址已保存：{$url}");
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
         } else {
             echo "<div class='alert alert-danger'>保存订阅地址失败！</div>";
         }

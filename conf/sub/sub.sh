@@ -14,7 +14,10 @@ mkdir -p "$Conf_Dir" "$Temp_Dir"
 
 TMP_SINGBOX=$(mktemp "$Temp_Dir/sub.json")
 
-# Clash订阅地址校验
+# 清理订阅不成功生成的临时文件
+rm -f "$Temp_Dir/sub.json" "$Conf_Dir/config.json"
+
+# 订阅地址校验
 [ -z "$CLASH_URL" ] && {
     echo "错误：未设置 CLASH_URL 环境变量"
     exit 1
@@ -96,12 +99,12 @@ echo ""
 
 # 静默重启 sing-box
 echo "重启sing-box..."
-/usr/local/etc/rc.d/sing-box restart >/dev/null 2>&1
+service sing-box restart >/dev/null 2>&1
 echo ""
 
 # 删除临时配置文件
 echo "删除临时文件..."
-rm -f /usr/local/etc/sing-box/sub/conf/config.json /usr/local/etc/sing-box/sub/temp/sub.json
+rm -f "$Temp_Dir/sub.json" "$Conf_Dir/config.json"
 echo ""
 
 #仪表盘信息
